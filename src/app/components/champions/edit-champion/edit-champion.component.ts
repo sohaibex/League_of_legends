@@ -59,7 +59,6 @@ export class EditChampionComponent implements OnInit {
         }
       });
       this.tags = [...new Set(arr)];
-      console.log(this.tags);
     });
   }
   //Methode pour renitailiser le formulaire

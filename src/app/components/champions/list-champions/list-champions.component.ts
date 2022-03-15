@@ -87,7 +87,6 @@ export class ListChampionsComponent implements OnInit {
   // get tous les champions
   getchampions() {
     this.championS.getAll().subscribe((res: any[]) => {
-      console.log(res);
       this.rowData = res.sort((a, b) => a.id - b.id);
     }),
       (error: string) => {

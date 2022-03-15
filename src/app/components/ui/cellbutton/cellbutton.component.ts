@@ -1,19 +1,18 @@
-import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { IChampionsModel } from 'src/app/core/models/champions.model';
+import { Component } from "@angular/core";
+import { ICellRendererAngularComp } from "ag-grid-angular";
+import { IChampionsModel } from "src/app/core/models/champions.model";
 
 @Component({
-  selector: 'app-cellbutton',
-  templateUrl: './cellbutton.component.html',
-  styleUrls: ['./cellbutton.component.scss'],
+  selector: "app-cellbutton",
+  templateUrl: "./cellbutton.component.html",
+  styleUrls: ["./cellbutton.component.scss"],
 })
 export class CellbuttonComponent implements ICellRendererAngularComp {
   error!: string;
   rowData!: any[];
   params: any;
   championss: IChampionsModel[] = [];
-  constructor(private dialog: MatDialog) {}
+  constructor() {}
 
   refresh(params?: any): boolean {
     console.log(params);
@@ -35,7 +34,7 @@ export class CellbuttonComponent implements ICellRendererAngularComp {
       this.params.onClick(params);
     }
   }
-   //delete champion
+  //update champion
 
   updateChampion($event: any) {
     if (this.params.onClick instanceof Function) {

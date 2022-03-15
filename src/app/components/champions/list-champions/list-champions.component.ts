@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { ColDef } from "ag-grid-community";
+import { IChampionsModel } from "src/app/core/models/champions.model";
+import { ChampionService } from "src/app/core/service/champion.service";
 
 @Component({
   selector: "app-list-champions",
@@ -8,10 +10,11 @@ import { ColDef } from "ag-grid-community";
   styleUrls: ["./list-champions.component.scss"],
 })
 export class ListChampionsComponent implements OnInit {
-  rowData: any[];
+  rowData: IChampionsModel[];
   columnDefs: ColDef[];
   frameworkComponents: any;
-  constructor(private dialog: MatDialog) {
+  error: string;
+  constructor(private dialog: MatDialog, private championS: ChampionService) {
     this.columnDefs = [
       { field: "id", sortable: true, filter: true },
       { field: "name", sortable: true, filter: true },
@@ -21,8 +24,18 @@ export class ListChampionsComponent implements OnInit {
     ];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getChampions();
+  }
 
-  getChampions() {}
+  getChampions() {
+    this.championS.getAll().subscribe((res: IChampionsModel[]) => {
+      this.rowData = res.sort((a, b) => a.id - b.id);
+    }),
+      (error: string) => {
+        this.error = error;
+        console.error(this.error);
+      };
+  }
   openAddChampionModal() {}
 }

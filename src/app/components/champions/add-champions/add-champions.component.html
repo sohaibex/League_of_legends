@@ -1,0 +1,76 @@
+<mat-toolbar style="justify-content: space-between">
+  <span>Ajouter un nouveau champion</span>
+
+  <span class="fill-remaining-space"></span>
+  <button
+    class="btn-dialog-close"
+    mat-stroked-button
+    (click)="closeModal()"
+    tabIndex="-1"
+  >
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-toolbar>
+<form class="mt-3" [formGroup]="ChampionForm" (ngSubmit)="addChampion()">
+  <div class="container">
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input
+          matInput
+          placeholder="Entrer le nom du champion"
+          formControlName="name"
+        />
+        <div *ngIf="f?.name?.touched && f?.name?.invalid">
+          <mat-error *ngIf="f?.name?.errors?.required"
+            >Le nom est obligatoire</mat-error
+          >
+        </div>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Titre</mat-label>
+        <input
+          matInput
+          placeholder="Entrer le titre du champion"
+          formControlName="title"
+        />
+        <mat-error *ngIf="f?.title?.errors?.required"
+          >Le titre est obligatoire</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Key</mat-label>
+        <input
+          matInput
+          placeholder="Entrer le key du champion"
+          formControlName="key"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Tags</mat-label>
+        <mat-select formControlName="tags" [(value)]="selectedTags" multiple>
+          <mat-option value="{{ tag }}" *ngFor="let tag of tags">{{
+            tag
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="button-row">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!ChampionForm.valid"
+        >
+          Enregistrer
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="reset()">
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+{{ ChampionForm.value | json }}

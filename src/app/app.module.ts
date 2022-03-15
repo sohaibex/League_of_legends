@@ -11,20 +11,30 @@ import { HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { ChampionsData } from "./core/api/champions.service";
+import { AddChampionsComponent } from "./components/champions/add-champions/add-champions.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { CellbuttonComponent } from "./components/ui/cellbutton/cellbutton.component";
 
 @NgModule({
-  declarations: [AppComponent, ListChampionsComponent],
+  declarations: [
+    AppComponent,
+    ListChampionsComponent,
+    AddChampionsComponent,
+    CellbuttonComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([CellbuttonComponent]),
     HttpClientModule,
     ReactiveFormsModule,
     HttpClientInMemoryWebApiModule.forRoot(ChampionsData),
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [AddChampionsComponent],
 })
 export class AppModule {}

@@ -11,6 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import "ag-grid-community/dist/styles/ag-grid.css";
 @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
 
 //font
 @import url('https://fonts.googleapis.com/css2?family=Licorice&family=Playfair+Display:wght@500&display=swap');

@@ -1,0 +1,19 @@
+<button
+  mat-icon-button
+  color="primary"
+  matTooltip="Modifier un champion"
+  id="edit"
+  (click)="updateChampion($event)"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+
+<button
+  mat-icon-button
+  color="warn"
+  matTooltip="Supprimer un champion"
+  id="delete"
+  (click)="deleteChampion($event)"
+>
+  <mat-icon>delete</mat-icon>
+</button>

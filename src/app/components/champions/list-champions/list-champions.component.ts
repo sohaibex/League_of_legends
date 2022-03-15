@@ -107,7 +107,7 @@ export class ListChampionsComponent implements OnInit {
   //open updatechamion Modal
   openUpdateChampionModal(params: any) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
     dialogConfig.data = {

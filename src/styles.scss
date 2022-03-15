@@ -6,3 +6,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Importing Material ui. */
 @import '@angular/material/prebuilt-themes/indigo-pink';
+
+/*Importing Ng-Grid SCSS file.*/
+@import "ag-grid-community/dist/styles/ag-grid.css";
+@import "ag-grid-community/dist/styles/ag-theme-alpine.css";

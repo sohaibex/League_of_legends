@@ -14,12 +14,14 @@ import { ChampionsData } from "./core/api/champions.service";
 import { AddChampionsComponent } from "./components/champions/add-champions/add-champions.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CellbuttonComponent } from "./components/ui/cellbutton/cellbutton.component";
+import { EditChampionComponent } from "./components/champions/edit-champion/edit-champion.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     ListChampionsComponent,
     AddChampionsComponent,
+    EditChampionComponent,
     CellbuttonComponent,
   ],
   imports: [
@@ -35,6 +37,6 @@ import { CellbuttonComponent } from "./components/ui/cellbutton/cellbutton.compo
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [AddChampionsComponent],
+  entryComponents: [AddChampionsComponent, EditChampionComponent],
 })
 export class AppModule {}

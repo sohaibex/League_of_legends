@@ -6,6 +6,7 @@ import { CellbuttonComponent } from "src/app/components/ui/cellbutton/cellbutton
 import Swal from "sweetalert2";
 import { ChampionService } from "src/app/core/service/champion.service";
 import { AddChampionsComponent } from "../add-champions/add-champions.component";
+import { EditChampionComponent } from "../edit-champion/edit-champion.component";
 
 @Component({
   selector: "app-list-champions",
@@ -66,7 +67,6 @@ export class ListChampionsComponent implements OnInit {
       if (result.isConfirmed) {
         this.championS.delete(params.rowData.id).subscribe((res) => {
           const api = this.gridApi;
-
           api.applyTransaction({ remove: [params.rowData] });
 
           Swal.fire({
@@ -105,5 +105,16 @@ export class ListChampionsComponent implements OnInit {
     this.dialog.open(AddChampionsComponent, dialogConfig);
   }
 
-  openUpdateChampionModal() {}
+  //open updatechamion Modal
+  openUpdateChampionModal(params: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "60%";
+    dialogConfig.data = {
+      selectedId: params.rowData.id,
+      gridapi: this.gridApi,
+    };
+    this.dialog.open(EditChampionComponent, dialogConfig);
+  }
 }

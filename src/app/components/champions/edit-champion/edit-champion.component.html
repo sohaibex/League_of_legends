@@ -14,16 +14,12 @@
 <form class="mt-3" [formGroup]="ChampionForm" (ngSubmit)="updateChampion()">
   <div class="container">
     <div class="row">
-      <mat-form-field>
+      <mat-form-field class="col-12">
         <mat-label>Nom</mat-label>
         <input
           matInput
           placeholder="Entrer le nom du champion"
           formControlName="name"
-          [ngClass]="{
-            'is-invalid':
-              f?.name?.touched && f?.name?.invalid && f?.name?.errors
-          }"
         />
         <div *ngIf="f?.name?.touched && f?.name?.invalid">
           <mat-error *ngIf="f?.name?.errors?.required"
@@ -31,7 +27,8 @@
           >
         </div>
       </mat-form-field>
-      <mat-form-field>
+
+      <mat-form-field class="col-12">
         <mat-label>Titre</mat-label>
         <input
           matInput
@@ -42,18 +39,17 @@
           >Le titre est obligatoire</mat-error
         >
       </mat-form-field>
-      <mat-form-field>
+
+      <mat-form-field class="col-12">
         <mat-label>Key</mat-label>
         <input
           matInput
           placeholder="Entrer le key du champion"
           formControlName="key"
         />
-        <mat-error *ngIf="f?.key?.errors?.required"
-          >Le key est obligatoire</mat-error
-        >
       </mat-form-field>
-      <mat-form-field>
+
+      <mat-form-field class="col-12">
         <mat-label>Tags</mat-label>
         <mat-select formControlName="tags" [(value)]="selectedTags" multiple>
           <mat-option value="{{ tag }}" *ngFor="let tag of tags">{{
@@ -61,8 +57,14 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="button-row">
-        <button mat-raised-button color="primary" type="submit">
+
+      <div class="button-row" class="col-12">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!ChampionForm.valid"
+        >
           Enregistrer
         </button>
         <button mat-raised-button color="warn" type="button" (click)="reset()">
@@ -72,4 +74,3 @@
     </div>
   </div>
 </form>
-{{ ChampionForm.value | json }}

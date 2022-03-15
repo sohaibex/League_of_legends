@@ -12,7 +12,11 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { ChampionsData } from "./core/api/champions.service";
 import { AddChampionsComponent } from "./components/champions/add-champions/add-champions.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDropdownConfig,
+  NgbDropdownModule,
+  NgbModule,
+} from "@ng-bootstrap/ng-bootstrap";
 import { CellbuttonComponent } from "./components/ui/cellbutton/cellbutton.component";
 import { EditChampionComponent } from "./components/champions/edit-champion/edit-champion.component";
 
@@ -33,7 +37,6 @@ import { EditChampionComponent } from "./components/champions/edit-champion/edit
     HttpClientModule,
     ReactiveFormsModule,
     HttpClientInMemoryWebApiModule.forRoot(ChampionsData),
-    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

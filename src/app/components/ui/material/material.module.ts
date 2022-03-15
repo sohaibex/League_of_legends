@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { MatGridListModule } from "@angular/material/grid-list";
 
 import { MatBadgeModule } from "@angular/material/badge";
 
@@ -27,6 +28,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatGridListModule,
   ],
 })
 export class MaterialModule {}

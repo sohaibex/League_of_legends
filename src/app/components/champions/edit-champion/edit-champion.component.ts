@@ -16,6 +16,9 @@ export class EditChampionComponent implements OnInit {
   tags!: IChampionsModel[];
   error?: string;
   selectedTags!: IChampionsModel[];
+  rowNode: any;
+  champions: IChampionsModel;
+  rowData: any[];
   constructor(
     private championS: ChampionService,
     private dialogRef: MatDialogRef<EditChampionComponent>,
@@ -32,6 +35,7 @@ export class EditChampionComponent implements OnInit {
 
   ngOnInit(): void {
     this.championS.getById(this.data.selectedId).subscribe((res: any) => {
+      this.champions = res;
       this.ChampionForm = new FormGroup({
         id: new FormControl(res["id"]),
         name: new FormControl(res["name"]),
@@ -70,17 +74,28 @@ export class EditChampionComponent implements OnInit {
     this.reset();
     this.dialogRef.close();
   }
+
   //methode pour ajouter les champions au DB
   updateChampion() {
     if (this.ChampionForm.valid) {
-      var rowNode = this.data.gridapi.getRowNode(this.data.selectedId)!;
-      rowNode.setData(this.ChampionForm.value);
-      this.closeModal();
-      Swal.fire({
-        title: "Bien Ajouter!!",
-        text: "Champion a été modifié avec succès",
-        icon: "success",
-      });
+      const championD: IChampionsModel = {
+        ...this.champions,
+        ...this.ChampionForm.value,
+      };
+
+      this.championS.update(championD).subscribe(() => {
+        this.getchampions();
+        Swal.fire({
+          title: "Bien Modifier!!",
+          text: "Champion a été modifié avec succès",
+          icon: "success",
+        });
+      }),
+        (error: string) => {
+          this.error = error;
+          console.error(this.error);
+        };
+      //this.updateTable(this.ChampionForm.value);
     } else {
       Swal.fire({
         title: "Erreur!!",
@@ -89,4 +104,16 @@ export class EditChampionComponent implements OnInit {
       });
     }
   }
+  getchampions() {
+    this.championS.getAll().subscribe((res: any[]) => {
+      this.data.datachamp = res.sort((a, b) => a.id - b.id);
+
+       this.data.gridapi.setRowData(this.data.datachamp);
+    }),
+      (error: string) => {
+        this.error = error;
+        console.error(this.error);
+      };
+  }
+
 }

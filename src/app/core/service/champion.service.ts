@@ -23,7 +23,9 @@ export class ChampionService {
   private readonly url = "api/champions";
   //get all champions
   getAll(): Observable<IChampionsModel[]> {
-    return this.http.get<any>(this.url).pipe(catchError(this.handleError));
+    return this.http
+      .get<IChampionsModel[]>(this.url)
+      .pipe(catchError(this.handleError));
   }
 
   //get one champion By id
@@ -35,19 +37,14 @@ export class ChampionService {
 
   //creat a champion
   create(champion: IChampionsModel): Observable<IChampionsModel[]> {
-    champion = {
-      ...champion,
-      id: null,
-    };
     return this.http
       .post<IChampionsModel[]>(this.url, champion, cudOptions)
       .pipe(catchError(this.handleError));
   }
   //update a champion
   update(champion: IChampionsModel): Observable<IChampionsModel> {
-    const url = `${this.url}/${champion.id}`;
     return this.http
-      .put<IChampionsModel>(url, champion)
+      .put<IChampionsModel>(`${this.url}/${champion.id}`, champion, cudOptions)
       .pipe(catchError(this.handleError));
   }
   //delete a champion

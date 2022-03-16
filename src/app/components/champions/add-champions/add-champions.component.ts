@@ -1,6 +1,13 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import {
+  Component,
+  HostListener,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Subscription } from "rxjs";
 import { ChampionsData } from "src/app/core/api/champions.service";
 import { IChampionsModel } from "src/app/core/models/champions.model";
 import { ChampionService } from "src/app/core/service/champion.service";
@@ -11,7 +18,7 @@ import Swal from "sweetalert2";
   templateUrl: "./add-champions.component.html",
   styleUrls: ["./add-champions.component.scss"],
 })
-export class AddChampionsComponent implements OnInit {
+export class AddChampionsComponent implements OnInit, OnDestroy {
   // ! operateur pour dire au compilateur que ChampionForm peut prendre une autre valeur que null ou undifined
   ChampionForm!: FormGroup;
   champions: Array<any> = [];
@@ -19,12 +26,19 @@ export class AddChampionsComponent implements OnInit {
   error?: string;
   selectedTags!: IChampionsModel[];
   generatedId?: number;
+  subscription: Subscription;
+
   constructor(
     private championS: ChampionService,
     private dialogRef: MatDialogRef<AddChampionsComponent>,
     private dataS: ChampionsData,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
+  //unsubscribe to avoid memory leaks
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   ngOnInit() {
     this.generatedId = this.dataS.genId(this.data.row);
@@ -47,7 +61,7 @@ export class AddChampionsComponent implements OnInit {
   //get all tags
   getTags() {
     const arr: any[] = [];
-    this.championS.getAll().subscribe((data: any) => {
+    this.subscription = this.championS.getAll().subscribe((data: any) => {
       this.tags = data.map((o: any) => {
         for (let i in o.tags) {
           arr.push(o.tags[i]);
@@ -63,15 +77,19 @@ export class AddChampionsComponent implements OnInit {
   //methode pour ajouter les champions au DB
   addChampion() {
     if (this.ChampionForm.valid) {
-      this.addToTable(this.ChampionForm.value);
-      this.closeModal();
-      this.championS.create(this.ChampionForm.value).subscribe(() => {
-        Swal.fire({
-          title: "Bien Ajouter!!",
-          text: "Champion a été ajouté avec succès",
-          icon: "success",
-        });
-      }),
+      console.log("hhh", this.ChampionForm.value);
+
+      (this.subscription = this.championS
+        .create(this.ChampionForm.value)
+        .subscribe((res) => {
+          localStorage.setItem("champions", JSON.stringify(res));
+          this.addToTable(res);
+          Swal.fire({
+            title: "Bien Ajouter!!",
+            text: "Champion a été ajouté avec succès",
+            icon: "success",
+          });
+        })),
         (error: string) => {
           this.error = error;
           console.error(this.error);
@@ -91,7 +109,6 @@ export class AddChampionsComponent implements OnInit {
   }
   //methode pour fermer le modal
   closeModal() {
-    this.reset();
     this.dialogRef.close();
   }
 }

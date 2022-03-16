@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import { ChampionService } from "src/app/core/service/champion.service";
 import { AddChampionsComponent } from "../add-champions/add-champions.component";
 import { EditChampionComponent } from "../edit-champion/edit-champion.component";
+import { Observable } from "rxjs";
+import { IChampionsModel } from "src/app/core/models/champions.model";
 
 @Component({
   selector: "app-list-champions",
@@ -14,7 +16,7 @@ import { EditChampionComponent } from "../edit-champion/edit-champion.component"
   styleUrls: ["./list-champions.component.scss"],
 })
 export class ListChampionsComponent implements OnInit {
-  rowData!: any[];
+  rowData: Observable<[IChampionsModel]>;
   frameworkComponents: any;
   columnDefs: ColDef[];
   error: any;
@@ -45,7 +47,9 @@ export class ListChampionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getchampions();
+  
+      this.getchampions();
+
   }
 
   onGridReady(params: any) {
@@ -86,8 +90,10 @@ export class ListChampionsComponent implements OnInit {
 
   // get tous les champions
   getchampions() {
-    this.championS.getAll().subscribe((res: any[]) => {
+    this.championS.getAll().subscribe((res: any) => {
       this.rowData = res.sort((a, b) => a.id - b.id);
+      console.log(this.rowData);
+
     }),
       (error: string) => {
         this.error = error;
@@ -99,19 +105,19 @@ export class ListChampionsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "60%";
-    dialogConfig.data = { row: this.rowData, gridapi: this.gridApi };
-    this.dialog.open(AddChampionsComponent, dialogConfig);
+    (dialogConfig.data = { row: this.rowData, gridapi: this.gridApi }),
+      this.dialog.open(AddChampionsComponent, dialogConfig);
   }
 
   //open updatechamion Modal
   openUpdateChampionModal(params: any) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
     dialogConfig.data = {
       selectedId: params.rowData.id,
+      datachamp: this.rowData,
       gridapi: this.gridApi,
     };
     this.dialog.open(EditChampionComponent, dialogConfig);

@@ -94,7 +94,7 @@ export class EditChampionComponent implements OnInit {
           this.error = error;
           console.error(this.error);
         };
-      //this.updateTable(this.ChampionForm.value);
+    
     } else {
       Swal.fire({
         title: "Erreur!!",

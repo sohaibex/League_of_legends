@@ -41,9 +41,7 @@ export class AddChampionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.generatedId = this.dataS.genId(this.data.row);
     this.ChampionForm = new FormGroup({
-      id: new FormControl(this.generatedId),
       name: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required]),
       tags: new FormControl(),
@@ -77,24 +75,23 @@ export class AddChampionsComponent implements OnInit, OnDestroy {
   //methode pour ajouter les champions au DB
   addChampion() {
     if (this.ChampionForm.valid) {
-      console.log("hhh", this.ChampionForm.value);
-
       (this.subscription = this.championS
         .create(this.ChampionForm.value)
         .subscribe((res) => {
-          localStorage.setItem("champions", JSON.stringify(res));
           this.addToTable(res);
+          this.getchampions();
+
           Swal.fire({
             title: "Bien Ajouter!!",
             text: "Champion a été ajouté avec succès",
             icon: "success",
           });
+          this.closeModal();
         })),
         (error: string) => {
           this.error = error;
           console.error(this.error);
         };
-      this.closeModal();
     } else {
       Swal.fire({
         title: "Erreur!!",
@@ -111,5 +108,17 @@ export class AddChampionsComponent implements OnInit, OnDestroy {
   //methode pour fermer le modal
   closeModal() {
     this.dialogRef.close();
+  }
+
+  //get champions to reload the datatable
+  getchampions() {
+    this.championS.getAll().subscribe((res: any[]) => {
+      this.data.row = res.sort((a, b) => a.id - b.id);
+      this.data.gridapi.setRowData(this.data.row);
+    }),
+      (error: string) => {
+        this.error = error;
+        console.error(this.error);
+      };
   }
 }

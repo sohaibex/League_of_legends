@@ -94,6 +94,7 @@ export class AddChampionsComponent implements OnInit, OnDestroy {
           this.error = error;
           console.error(this.error);
         };
+      this.closeModal();
     } else {
       Swal.fire({
         title: "Erreur!!",

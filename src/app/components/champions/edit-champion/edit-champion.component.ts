@@ -16,9 +16,7 @@ export class EditChampionComponent implements OnInit {
   tags!: IChampionsModel[];
   error?: string;
   selectedTags!: IChampionsModel[];
-  rowNode: any;
   champions: IChampionsModel;
-  rowData: any[];
   constructor(
     private championS: ChampionService,
     private dialogRef: MatDialogRef<EditChampionComponent>,
@@ -90,6 +88,7 @@ export class EditChampionComponent implements OnInit {
           text: "Champion a été modifié avec succès",
           icon: "success",
         });
+        this.closeModal();
       }),
         (error: string) => {
           this.error = error;
@@ -108,12 +107,11 @@ export class EditChampionComponent implements OnInit {
     this.championS.getAll().subscribe((res: any[]) => {
       this.data.datachamp = res.sort((a, b) => a.id - b.id);
 
-       this.data.gridapi.setRowData(this.data.datachamp);
+      this.data.gridapi.setRowData(this.data.datachamp);
     }),
       (error: string) => {
         this.error = error;
         console.error(this.error);
       };
   }
-
 }

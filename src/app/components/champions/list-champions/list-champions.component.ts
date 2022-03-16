@@ -47,14 +47,23 @@ export class ListChampionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
-      this.getchampions();
-
+    this.getchampions();
   }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+  }
+
+  // get tous les champions
+  getchampions() {
+    this.championS.getAll().subscribe((res: any) => {
+      this.rowData = res.sort((a, b) => a.id - b.id);
+    }),
+      (error: string) => {
+        this.error = error;
+        console.error(this.error);
+      };
   }
 
   //fonction qui permet de supprimer un champion
@@ -88,18 +97,6 @@ export class ListChampionsComponent implements OnInit {
     });
   }
 
-  // get tous les champions
-  getchampions() {
-    this.championS.getAll().subscribe((res: any) => {
-      this.rowData = res.sort((a, b) => a.id - b.id);
-      console.log(this.rowData);
-
-    }),
-      (error: string) => {
-        this.error = error;
-        console.error(this.error);
-      };
-  }
   //open Addchamion Modal
   openAddChampionModal() {
     const dialogConfig = new MatDialogConfig();
